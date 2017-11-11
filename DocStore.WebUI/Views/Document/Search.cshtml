@@ -1,0 +1,16 @@
+﻿
+<div class="panel-heading">
+    <h3 class="text-center">Поиск</h3>
+</div>
+<div class="panel-body">
+    <div class="panel-group">
+        @using (Ajax.BeginForm("Search", "Document", new AjaxOptions { UpdateTargetId = "result" })) {
+            @Html.TextBox("documentName", null, new { @class = "form-control", style = "margin-left: 300px; float:left"})
+            <input type="submit" value="Найти" class="btn btn-primary" style="margin-left: 10px"/>
+            @Ajax.ActionLink("Вернуться к списку", "Index", "Document", null, new AjaxOptions { UpdateTargetId = "main" }, new {
+                @class = "btn btn-default"
+            })
+        }
+    </div>
+</div>
+<div id="result"></div>

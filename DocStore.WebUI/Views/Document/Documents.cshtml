@@ -1,0 +1,45 @@
+﻿@model IEnumerable<DocStore.Domain.Model.Document>
+
+
+<div class="panel-body" id="docTable">
+    <table class="table table-striped table-condensed table-bordered">
+        <tr>
+            <th>Наименование</th>
+            <th>Дата</th>
+            <th>Автор</th>
+            <th>Документ</th>
+        </tr>
+        @foreach (var document in Model) {
+            var documetnAuthor = document.User.Login;
+            <tr class="document">
+                @if (document.Name.Length > 30) {
+                    <td data-toggle="tooltip" title="@document.Name">@document.Name.Substring(0, 30)...</td>
+                } else {
+                    <td>@document.Name</td>
+                }
+                <td>@document.Date.GetDateTimeFormats('D')[1]</td>
+                <td>@documetnAuthor</td>
+                <td>                   
+                    @using (Html.BeginForm("GetFile", "Document", new { id = document.Id,
+                        contentType = document.DocumentMimeType,
+                        originalfileName = document.OriginalName,
+                        customFileName = document.Name}, FormMethod.Post, new { style = "display:inline-block;" })) {
+                        <input type="submit" class="downloadDoc" value="Скачать"/>
+                    }
+                    @if (documetnAuthor == HttpContext.Current.User.Identity.Name) {
+                        using (Ajax.BeginForm("DeleteDoc", "Document", new { id = document.Id, originalFileName = document.OriginalName },
+                                          new AjaxOptions { UpdateTargetId = "docTable" }, new { style = "display:inline-block;" })) {
+                            <input type="submit" class="deleteDoc" value="Удалить"/>
+                        }
+                     }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<script>
+    $(function () {
+        $('data-toggle["tooltip"]').tooltip();
+    })
+</script>

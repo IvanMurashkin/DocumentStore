@@ -1,0 +1,88 @@
+﻿@using DocStore.Domain.Model
+@model IEnumerable<Document>
+
+@{
+    ViewBag.Title = "DocumentStore";
+}
+<div id="documents">
+    <div class="wrapSort">
+        <div class="form-group form-inline">
+            @Html.TextBox("name", null, new { @class = "form-control inputSort", placeholder = "Наименование" })
+        </div>
+        <div class="form-group form-inline">
+            @Html.TextBox("date", null, new { @class = "form-control inputSort", id = "datepicker", placeholder = "Дата(ММ/ДД/ГГГГ)" })
+        </div>
+        <div class="form-group form-inline">
+            @Html.TextBox("author", null, new { @class = "form-control inputSort", placeholder = "Автор" })
+        </div>
+        <input type="submit" class="btn btn-primary sortBtn" value="Сортировать" />
+    </div>
+    <div class="panel panel-default">
+        <div>
+            <h3 class="text-center">Список документов</h3>
+        </div>
+        <div id="upDoc">
+            @{ Html.RenderPartial("Documents"); }
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $(".sortBtn").bind("click", function () {
+            let dataSort = new Array();
+            for (let i = 0; i < 3; i++) {
+                dataSort[i] = $(".inputSort").eq(i).val();
+            }
+
+            let documents = $(".document");
+            documents.show();
+            for (let i = 0; i < documents.length; i++) {
+                let name = documents[i].children[0].textContent;
+                let date = documents[i].children[1].textContent;
+                let author = documents[i].children[2].textContent;
+                if (name.indexOf(dataSort[0] == "" ? name[0] : dataSort[0]) == -1 ||
+                    date.indexOf(dateParse(dataSort[1]) == "" ? date[0] : dateParse(dataSort[1])) == -1 ||
+                    author.indexOf(dataSort[2] == "" ? author[0] : dataSort[2]) == -1) {
+                    documents.eq(i).hide();
+                }
+            }
+            
+        });
+
+        $.datepicker.regional['ru'] = {
+            closeText: 'Закрыть',
+            prevText: '&#x3c;Пред',
+            nextText: 'След&#x3e;',
+            currentText: 'Сегодня',
+            monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+                'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+            monthNamesShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
+                'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+            dayNames: ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'],
+            dayNamesShort: ['вск', 'пнд', 'втр', 'срд', 'чтв', 'птн', 'сбт'],
+            dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+            dateFormat: 'mm/dd/yy',
+            firstDay: 1,
+            isRTL: false
+        };
+
+        $.datepicker.setDefaults($.datepicker.regional['ru']);
+        $("#datepicker").datepicker();
+
+    });
+
+    function dateParse(dateInput) {
+        let date = new Date(dateInput);
+
+        let options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+        if (date != "Invalid Date") {
+            return date.toLocaleString("ru", options);
+        } else {
+            return "";
+        }
+    }
+</script>

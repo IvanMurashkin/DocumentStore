@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/ErrorStyle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <title>Хранилище докуметов</title>
+</head>
+<body>
+    <div id="main">
+        <header class="navbar navbar-default">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Хранилище докуметов", "Index",null, new { @class = "navbar-brand"})
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-main">
+                    <ul class="nav navbar-nav">
+                        <li class="navElement">@Ajax.ActionLink("Загрузить документ", "Save", new AjaxOptions { UpdateTargetId = "documents" })</li>
+                        <li class="navElement">@Ajax.ActionLink("Поиск файлов", "Search", new AjaxOptions { UpdateTargetId = "documents" })</li>
+                        <li class="exit">@Html.ActionLink("Выход", "ExitToStore", "Account", null, null)</li>
+                    </ul>
+                </div>
+        </header>
+        <div class="wrapper">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+﻿.wrapper {
+    width: 940px;
+    margin: auto;
+    height: auto;
+}
+
+.navElement:hover {
+    background-color: #00ff00;
+}
+
+.panel {
+    margin-top: 20px;
+}
+
+.form-control {
+    width: 300px;
+}
+
+.exit:hover {
+    background-color: red;
+}
+
+.wrapSort {
+    text-align: center;
+}
+
+.form-inline{
+    display: inline-block;
+}
+
+.deleteDoc, .downloadDoc {
+    color: white;
+    border: none;
+    border-radius: 2px;
+}
+.deleteDoc {
+    background: red;
+    margin-left: 5px;
+}
+.downloadDoc {
+    background: green;
+}
+

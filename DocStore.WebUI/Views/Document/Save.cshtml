@@ -1,0 +1,40 @@
+﻿@model DocStore.Domain.Model.Document
+
+@{
+    ViewBag.Title = "Сохранение документа";
+}
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Сохранение документа</h3>
+    </div>
+@using (Html.BeginForm("Save", "Document", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    <div class="panel-body">
+        @Html.ValidationSummary()
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control"})
+        </div>
+        <div class="form-group">
+            <div style="position:relative;">
+                <label>Документ</label>
+                <a class='btn' href='javascript:;'>
+                    Выберите файл...
+                    <input type="file" name="document"
+                           style="position:absolute;z-index:2;top:0;
+                                left:0;filter: alpha(opacity=0); opacity:0;
+                                background-color:transparent;color:transparent;"
+                           onchange='$("#upload-file-info").html($(this).val());'>
+                </a>
+                <span class='label label-info' id="upload-file-info"></span>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <input type="submit" value="Сохранить" class="btn btn-primary" />
+        @Ajax.ActionLink("Вернуться к списку", "Index", "Document", null, new AjaxOptions { UpdateTargetId = "main"}, new {
+            @class = "btn btn-default"
+        })
+    </div>
+}
+</div>
